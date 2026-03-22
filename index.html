@@ -542,21 +542,21 @@ footer {
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════ DATA ═══════
-const PROJECTS = [
-  { title:"SENTIENT — LLM PLATFORM",    desc:"Fine-tuned LLaMA-3 with RLHF. Serves 50k+ daily queries via FastAPI + Redis. 40% lower latency than baseline.", stack:["PyTorch","HuggingFace","FastAPI","Redis","AWS"],    status:"live", hue:185 },
-  { title:"RETINA — MEDICAL IMAGE AI",  desc:"CNN + Vision Transformer ensemble for diabetic retinopathy detection. 97.3% AUC. Deployed as DICOM-integrated inference service.", stack:["PyTorch","ViT","OpenCV","FastAPI","Docker"], status:"live", hue:265 },
-  { title:"PULSE — ANOMALY DETECTION",  desc:"LSTM + Isolation Forest for IoT time-series. Processes 500k events/sec with sub-20ms alert latency.", stack:["TensorFlow","Kafka","ClickHouse","Grafana"],   status:"live", hue:35  },
-  { title:"LEXIS — NLP SDK",            desc:"Open-source Python library for NLP prototyping — entity extraction, sentiment, summarization. 2.1k stars, 18k monthly downloads.", stack:["Python","spaCy","HuggingFace","PyPI"],      status:"live", hue:145 },
-  { title:"FORGE — AUTOML PLATFORM",    desc:"End-to-end AutoML with neural architecture search, auto feature engineering, and one-click Kubernetes deployment.", stack:["Python","Optuna","MLflow","Kubernetes"],      status:"wip",  hue:210 },
-  { title:"ECHOMIND — VOICE AI",        desc:"Multilingual speech-to-text + intent classification for 12 Indian languages using wav2vec 2.0 with custom tokenizers.", stack:["PyTorch","wav2vec","FastAPI","GCP"],          status:"wip",  hue:5   }
-];
+// const PROJECTS = [
+//   { title:"SENTIENT — LLM PLATFORM",    desc:"Fine-tuned LLaMA-3 with RLHF. Serves 50k+ daily queries via FastAPI + Redis. 40% lower latency than baseline.", stack:["PyTorch","HuggingFace","FastAPI","Redis","AWS"],    status:"live", hue:185 },
+//   { title:"RETINA — MEDICAL IMAGE AI",  desc:"CNN + Vision Transformer ensemble for diabetic retinopathy detection. 97.3% AUC. Deployed as DICOM-integrated inference service.", stack:["PyTorch","ViT","OpenCV","FastAPI","Docker"], status:"live", hue:265 },
+//   { title:"PULSE — ANOMALY DETECTION",  desc:"LSTM + Isolation Forest for IoT time-series. Processes 500k events/sec with sub-20ms alert latency.", stack:["TensorFlow","Kafka","ClickHouse","Grafana"],   status:"live", hue:35  },
+//   { title:"LEXIS — NLP SDK",            desc:"Open-source Python library for NLP prototyping — entity extraction, sentiment, summarization. 2.1k stars, 18k monthly downloads.", stack:["Python","spaCy","HuggingFace","PyPI"],      status:"live", hue:145 },
+//   { title:"FORGE — AUTOML PLATFORM",    desc:"End-to-end AutoML with neural architecture search, auto feature engineering, and one-click Kubernetes deployment.", stack:["Python","Optuna","MLflow","Kubernetes"],      status:"wip",  hue:210 },
+//   { title:"ECHOMIND — VOICE AI",        desc:"Multilingual speech-to-text + intent classification for 12 Indian languages using wav2vec 2.0 with custom tokenizers.", stack:["PyTorch","wav2vec","FastAPI","GCP"],          status:"wip",  hue:5   }
+// ];
 
-const EXPERIENCE = [
-  { date:"2023 — PRESENT", company:"STEALTH AI STARTUP", role:"Senior ML Engineer", desc:"Architected a real-time recommendation engine for 10M+ daily users. Built internal AutoML platform reducing iteration time by 60%. Led a team of 4 ML engineers.", chips:["LLMs","RecSys","MLOps","Team Lead"] },
-  { date:"2021 — 2023",    company:"INFOSYS AI LAB",     role:"ML Engineer II",    desc:"Built NLP pipelines for enterprise document processing. Fine-tuned BERT models for SOTA results. Reduced inference latency 45% via quantization + ONNX.", chips:["NLP","BERT","Azure ML","Python"] },
-  { date:"2020 — 2021",    company:"FRACTAL ANALYTICS",  role:"Data Scientist",    desc:"Churn prediction models with 83% recall impacting $4M+ campaigns. Automated reporting pipelines for C-suite across 3 geographies.", chips:["XGBoost","SHAP","SQL","Tableau"] },
-  { date:"2018 — 2020",    company:"IIT KHARAGPUR",      role:"Research Assistant", desc:"Published 3 papers on computer vision and transfer learning. Improved ImageNet top-5 accuracy by 2.3% over ResNet-50 with novel attention mechanisms.", chips:["Research","CV","PyTorch","LaTeX"] }
-];
+// const EXPERIENCE = [
+//   { date:"2023 — PRESENT", company:"STEALTH AI STARTUP", role:"Senior ML Engineer", desc:"Architected a real-time recommendation engine for 10M+ daily users. Built internal AutoML platform reducing iteration time by 60%. Led a team of 4 ML engineers.", chips:["LLMs","RecSys","MLOps","Team Lead"] },
+//   { date:"2021 — 2023",    company:"INFOSYS AI LAB",     role:"ML Engineer II",    desc:"Built NLP pipelines for enterprise document processing. Fine-tuned BERT models for SOTA results. Reduced inference latency 45% via quantization + ONNX.", chips:["NLP","BERT","Azure ML","Python"] },
+//   { date:"2020 — 2021",    company:"FRACTAL ANALYTICS",  role:"Data Scientist",    desc:"Churn prediction models with 83% recall impacting $4M+ campaigns. Automated reporting pipelines for C-suite across 3 geographies.", chips:["XGBoost","SHAP","SQL","Tableau"] },
+//   { date:"2018 — 2020",    company:"IIT KHARAGPUR",      role:"Research Assistant", desc:"Published 3 papers on computer vision and transfer learning. Improved ImageNet top-5 accuracy by 2.3% over ResNet-50 with novel attention mechanisms.", chips:["Research","CV","PyTorch","LaTeX"] }
+// ];
 
 // ═══════ STARS ═══════
 (function(){
@@ -634,17 +634,17 @@ const EXPERIENCE = [
 })();
 
 // ═══════ EXPERIENCE ═══════
-(function(){
-  const list=document.getElementById('exp-list');
-  EXPERIENCE.forEach(e=>{
-    const el=document.createElement('div');el.className='exp-item';
-    const chips=e.chips.map(c=>`<span class="chip">${c}</span>`).join('');
-    el.innerHTML=`<div><div class="exp-date">${e.date}</div><div class="exp-co">${e.company}</div></div><div><div class="exp-role">${e.role}</div><div class="exp-desc">${e.desc}</div><div class="exp-chips">${chips}</div></div>`;
-    list.appendChild(el);
-  });
-  const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.15});
-  document.querySelectorAll('.exp-item').forEach(el=>obs.observe(el));
-})();
+// (function(){
+//   const list=document.getElementById('exp-list');
+//   EXPERIENCE.forEach(e=>{
+//     const el=document.createElement('div');el.className='exp-item';
+//     const chips=e.chips.map(c=>`<span class="chip">${c}</span>`).join('');
+//     el.innerHTML=`<div><div class="exp-date">${e.date}</div><div class="exp-co">${e.company}</div></div><div><div class="exp-role">${e.role}</div><div class="exp-desc">${e.desc}</div><div class="exp-chips">${chips}</div></div>`;
+//     list.appendChild(el);
+//   });
+//   const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.15});
+//   document.querySelectorAll('.exp-item').forEach(el=>obs.observe(el));
+// })();
 
 // ═══════ CONTACT FORM ═══════
 function sendMsg(){

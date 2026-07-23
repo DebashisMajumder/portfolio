@@ -42,7 +42,7 @@ window.addEventListener('load', () => {
 
 // ═══════ HERO TYPEWRITER ═══════
 (function () {
-  const el = document.getElementById('hero-tag'), txt = 'ML Engineer · Alipurduar, India';
+  const el = document.getElementById('hero-tag'), txt = 'BTech AI · Alipurduar, India';
   let i = 0;
   function t() { if (i <= txt.length) { el.textContent = txt.slice(0, i); i++; setTimeout(t, 55); } }
   setTimeout(t, 800);
@@ -51,15 +51,52 @@ window.addEventListener('load', () => {
 // ═══════ DATA ═══════
 const PROJECTS = [
   {
+    title: "PLANT DISEASE CLASSIFICATION",
+    desc: "Attention-driven multi-ViT architecture for fine-grained plant disease detection. Designing a preprocessing and augmentation pipeline and benchmarking against baseline CNN architectures.",
+    stack: ["Python", "PyTorch", "OpenCV", "Vision Transformers"],
+    status: "wip",
+    link: ""
+  },
+  {
     title: "WIRELESS DATA TRANSFER",
-    desc: "A lightweight, secure Flask-based file sharing application with SSH-only admin access, QR code generation, and automatic file expiration. Built for Raspberry Pi deployments on local networks.",
-    stack: ["Python", "Flask", "Raspberry Pi", "SSH", "QR Code"],
+    desc: "Production-ready wireless file transfer system deployed on Raspberry Pi Zero 2W. Features token-based secure uploads, QR-code access, SSH-gated admin dashboard, and 24-hour auto-expiry with audit logging.",
+    stack: ["Python", "Flask", "Raspberry Pi", "Gunicorn"],
     status: "live",
     link: "https://github.com/DebashisMajumder/Wireless-Data-Transfer"
   }
 ];
 
-const EXPERIENCE = [];
+const EDUCATION = [
+  {
+    date: "2023 — 2027",
+    institution: "Alipurduar Govt. Engineering & Management College",
+    degree: "BTech in Artificial Intelligence",
+    detail: "Pursuing",
+    chips: ["Machine Learning", "Deep Learning", "DSA", "DBMS", "Computer Networks", "OS", "Probability & Statistics"]
+  },
+  {
+    date: "2022 — 2023",
+    institution: "Barajaguli Gopal Academy (WBCHSE)",
+    degree: "Higher Secondary — PCM",
+    detail: "65.04%",
+    chips: ["Physics", "Chemistry", "Mathematics"]
+  },
+  {
+    date: "2020 — 2021",
+    institution: "Barajaguli Gopal Academy (WBBSE)",
+    degree: "Secondary Education",
+    detail: "77.7%",
+    chips: []
+  }
+];
+
+const CERTIFICATES = [
+  {
+    title: "Python for Data Science, AI and Development",
+    issuer: "Coursera",
+    link: ""
+  }
+];
 
 // ═══════ PROJECTS ═══════
 (function () {
@@ -133,17 +170,43 @@ const EXPERIENCE = [];
   });
 })();
 
-// ═══════ EXPERIENCE ═══════
+// ═══════ EDUCATION ═══════
 (function () {
-  const list = document.getElementById('exp-list');
-  EXPERIENCE.forEach(e => {
-    const el = document.createElement('div'); el.className = 'exp-item';
-    const chips = e.chips.map(c => `<span class="chip">${c}</span>`).join('');
-    el.innerHTML = `<div><div class="exp-date">${e.date}</div><div class="exp-co">${e.company}</div></div><div><div class="exp-role">${e.role}</div><div class="exp-desc">${e.desc}</div><div class="exp-chips">${chips}</div></div>`;
+  const list = document.getElementById('edu-list');
+  if (!list) return;
+  EDUCATION.forEach(e => {
+    const el = document.createElement('div'); el.className = 'edu-item';
+    const chips = e.chips.length ? e.chips.map(c => `<span class="chip">${c}</span>`).join('') : '';
+    el.innerHTML = `
+      <div class="edu-left">
+        <div class="edu-date">${e.date}</div>
+        <div class="edu-inst">${e.institution}</div>
+      </div>
+      <div class="edu-right">
+        <div class="edu-degree">${e.degree}</div>
+        <div class="edu-detail">${e.detail}</div>
+        ${chips ? `<div class="edu-chips">${chips}</div>` : ''}
+      </div>`;
     list.appendChild(el);
   });
+
+  // Certificates
+  const certList = document.getElementById('cert-list');
+  if (certList) {
+    CERTIFICATES.forEach(c => {
+      const el = document.createElement('div'); el.className = 'cert-item';
+      el.innerHTML = `
+        <div class="cert-icon">◆</div>
+        <div class="cert-body">
+          <div class="cert-title">${c.title}</div>
+          <div class="cert-issuer">${c.issuer}</div>
+        </div>`;
+      certList.appendChild(el);
+    });
+  }
+
   const obs = new IntersectionObserver(en => { en.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }); }, { threshold: .15 });
-  document.querySelectorAll('.exp-item').forEach(el => obs.observe(el));
+  document.querySelectorAll('.edu-item, .cert-item').forEach(el => obs.observe(el));
 })();
 
 // ═══════ SCROLL REVEAL ═══════
@@ -214,7 +277,7 @@ const EXPERIENCE = [];
 // ═══════ NAV ACTIVE ═══════
 (function () {
   const links = document.querySelectorAll('nav .nav-link');
-  const ids = ['about', 'skills', 'projects', 'experience', 'contact'];
+  const ids = ['about', 'skills', 'projects', 'education', 'contact'];
   const secs = ids.map(id => document.getElementById(id));
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY + 200;

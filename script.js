@@ -55,81 +55,148 @@ const PROJECTS = [
     desc: "A lightweight, secure Flask-based file sharing application with SSH-only admin access, QR code generation, and automatic file expiration. Built for Raspberry Pi deployments on local networks.",
     stack: ["Python", "Flask", "Raspberry Pi", "SSH", "QR Code"],
     status: "live",
-    link: "https://github.com/DebashisMajumder/Wireless-Data-Transfer"
+    link: "https://github.com/DebashisMajumder/Wireless-Data-Transfer",
+    accent: ["#c9a96e", "#8b6914"]
+  },
+  {
+    title: "ATTENDANCE SYSTEM",
+    desc: "Automated facial-recognition attendance system using DeepFace and Flask. Marks attendance in real-time from a live camera feed and persists records to a database.",
+    stack: ["Python", "DeepFace", "Flask", "OpenCV", "SQLite"],
+    status: "wip",
+    link: "https://github.com/DebashisMajumder",
+    accent: ["#6e9ec9", "#144d8b"]
+  },
+  {
+    title: "ML INFERENCE ENGINE",
+    desc: "Optimized ONNX-based inference pipeline with batching, quantization, and sub-10ms latency for production-grade NLP and CV model serving.",
+    stack: ["ONNX", "FastAPI", "Docker", "Python", "CUDA"],
+    status: "wip",
+    link: null,
+    accent: ["#9e6ec9", "#3d1a6e"]
   }
 ];
 
 const EXPERIENCE = [];
 
+// ═══════ DRAW CANVAS VISUAL ═══════
+function drawProjectCanvas(cv, accentColors) {
+  cv.width = 680; cv.height = 400;
+  const ctx = cv.getContext('2d');
+  const [a1, a2] = accentColors || ['#c9a96e', '#8b6914'];
+  // Dark gradient background
+  const g = ctx.createLinearGradient(0, 0, 680, 400);
+  g.addColorStop(0, '#080808'); g.addColorStop(1, '#141414');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, 680, 400);
+  // Grid
+  ctx.strokeStyle = `${a1}08`; ctx.lineWidth = 1;
+  for (let x = 0; x < 680; x += 36) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 400); ctx.stroke(); }
+  for (let y = 0; y < 400; y += 36) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(680, y); ctx.stroke(); }
+  // Accent wave
+  ctx.strokeStyle = `${a1}99`; ctx.lineWidth = 1.5;
+  ctx.shadowColor = a1; ctx.shadowBlur = 10;
+  ctx.beginPath();
+  for (let x = 0; x <= 680; x += 3) {
+    const y = 200 + Math.sin(x * .018) * 55 + Math.sin(x * .048 + 1.2) * 22;
+    x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke(); ctx.shadowBlur = 0;
+  // Second faint wave
+  ctx.strokeStyle = `${a1}30`; ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let x = 0; x <= 680; x += 3) {
+    const y = 200 + Math.sin(x * .022 + .8) * 80 + Math.sin(x * .06 + 2) * 30;
+    x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  // Scatter dots
+  for (let i = 0; i < 18; i++) {
+    const dx = Math.random() * 680, dy = Math.random() * 400;
+    ctx.beginPath(); ctx.arc(dx, dy, Math.random() * 1.8 + .4, 0, Math.PI * 2);
+    ctx.fillStyle = `${a1}${Math.floor(Math.random() * 80 + 30).toString(16).padStart(2,'0')}`;
+    ctx.fill();
+  }
+  // Radial glow
+  const rg = ctx.createRadialGradient(340, 200, 0, 340, 200, 260);
+  rg.addColorStop(0, `${a1}14`); rg.addColorStop(1, 'transparent');
+  ctx.fillStyle = rg; ctx.fillRect(0, 0, 680, 400);
+}
+
 // ═══════ PROJECTS ═══════
 (function () {
   const grid = document.getElementById('proj-grid');
+  const featContainer = document.getElementById('proj-featured');
+
   PROJECTS.forEach((p, idx) => {
-    const card = document.createElement('div');
-    card.className = 'proj-card sr sr-d' + (idx % 4 + 1);
-    const badge = p.status === 'live'
-      ? '<div class="proj-badge live">● Live</div>'
-      : '<div class="proj-badge wip">○ WIP</div>';
     const tags = p.stack.map(t => `<span class="proj-tag">${t}</span>`).join('');
+    const badge = p.status === 'live'
+      ? `<div class="proj-badge live">● Live</div>`
+      : `<div class="proj-badge wip">○ WIP</div>`;
+    const numStr = String(idx + 1).padStart(2, '0');
 
-    // Generate a canvas-based abstract visual
-    card.innerHTML = `
-      <div class="proj-vis">
-        <canvas class="pvc" data-title="${p.title}" width="680" height="400"></canvas>
-        <div class="proj-vis-overlay"></div>
-        ${badge}
-      </div>
-      <div class="proj-body">
-        <div class="proj-name">${p.title}</div>
-        <div class="proj-desc">${p.desc}</div>
-        <div class="proj-tags">${tags}</div>
-        <div class="proj-links">${p.link ? `<a href="${p.link}" target="_blank" rel="noopener" class="proj-link">GitHub ↗</a>` : ''}</div>
-      </div>`;
+    if (idx === 0 && featContainer) {
+      // ── Featured card ──────────────────────
+      const feat = document.createElement('div');
+      feat.className = 'proj-feat-card sr';
+      feat.innerHTML = `
+        <div class="proj-feat-vis">
+          <canvas class="pvc-feat" width="680" height="400"></canvas>
+          <div class="proj-feat-vis-overlay"></div>
+          <div class="proj-feat-num">${numStr}</div>
+        </div>
+        <div class="proj-feat-body">
+          <div class="proj-feat-eyebrow">Featured Project</div>
+          <div class="proj-feat-title">${p.title}</div>
+          <div class="proj-feat-desc">${p.desc}</div>
+          <div class="proj-feat-tags">${tags}</div>
+          <div class="proj-feat-links">
+            ${p.link ? `<a href="${p.link}" target="_blank" rel="noopener" class="proj-link">GitHub ↗</a>` : ''}
+            <div class="proj-feat-badge">${p.status === 'live' ? '● Live' : '○ WIP'}</div>
+          </div>
+        </div>`;
+      featContainer.appendChild(feat);
+      // Draw canvas
+      const cv = feat.querySelector('.pvc-feat');
+      drawProjectCanvas(cv, p.accent);
 
-    // Subtle tilt on hover
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - .5;
-      const y = (e.clientY - rect.top) / rect.height - .5;
-      card.style.transform = `perspective(800px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg) translateY(-6px)`;
-    });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-    grid.appendChild(card);
-  });
+      // Subtle tilt
+      feat.addEventListener('mousemove', e => {
+        const r = feat.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        feat.style.transform = `perspective(1200px) rotateY(${x * 3}deg) rotateX(${-y * 3}deg)`;
+      });
+      feat.addEventListener('mouseleave', () => { feat.style.transform = ''; });
+    } else {
+      // ── Regular card ──────────────────────
+      const card = document.createElement('div');
+      card.className = 'proj-card sr sr-d' + (idx % 4 + 1);
+      card.innerHTML = `
+        <div class="proj-vis">
+          <canvas class="pvc" width="680" height="400"></canvas>
+          <div class="proj-vis-overlay"></div>
+          ${badge}
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">${numStr}</div>
+          <div class="proj-name">${p.title}</div>
+          <div class="proj-desc">${p.desc}</div>
+          <div class="proj-tags">${tags}</div>
+          <div class="proj-links">${p.link ? `<a href="${p.link}" target="_blank" rel="noopener" class="proj-link">GitHub ↗</a>` : ''}</div>
+        </div>`;
 
-  // Generate abstract project visuals
-  document.querySelectorAll('.pvc').forEach(cv => {
-    cv.width = 680; cv.height = 400;
-    const ctx = cv.getContext('2d');
-    // Dark gradient background
-    const g = ctx.createLinearGradient(0, 0, 680, 400);
-    g.addColorStop(0, '#0a0a0a');
-    g.addColorStop(1, '#111');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 680, 400);
-    // Subtle grid
-    ctx.strokeStyle = 'rgba(201,169,110,.04)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x < 680; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 400); ctx.stroke(); }
-    for (let y = 0; y < 400; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(680, y); ctx.stroke(); }
-    // Gold accent line
-    ctx.strokeStyle = 'rgba(201,169,110,.5)';
-    ctx.lineWidth = 1.5;
-    ctx.shadowColor = 'rgba(201,169,110,.3)';
-    ctx.shadowBlur = 8;
-    ctx.beginPath();
-    for (let x = 0; x <= 680; x += 3) {
-      const y = 200 + Math.sin(x * .02) * 60 + Math.sin(x * .05 + 1) * 25;
-      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - .5;
+        const y = (e.clientY - rect.top) / rect.height - .5;
+        card.style.transform = `perspective(800px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+      grid.appendChild(card);
+
+      // Draw canvas
+      const cv = card.querySelector('.pvc');
+      drawProjectCanvas(cv, p.accent);
     }
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-    // Radial glow
-    const rg = ctx.createRadialGradient(340, 200, 0, 340, 200, 250);
-    rg.addColorStop(0, 'rgba(201,169,110,.08)');
-    rg.addColorStop(1, 'transparent');
-    ctx.fillStyle = rg;
-    ctx.fillRect(0, 0, 680, 400);
   });
 })();
 

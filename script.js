@@ -112,7 +112,7 @@ function drawProjectCanvas(cv, accentColors) {
   for (let i = 0; i < 18; i++) {
     const dx = Math.random() * 680, dy = Math.random() * 400;
     ctx.beginPath(); ctx.arc(dx, dy, Math.random() * 1.8 + .4, 0, Math.PI * 2);
-    ctx.fillStyle = `${a1}${Math.floor(Math.random() * 80 + 30).toString(16).padStart(2,'0')}`;
+    ctx.fillStyle = `${a1}${Math.floor(Math.random() * 80 + 30).toString(16).padStart(2, '0')}`;
     ctx.fill();
   }
   // Radial glow
